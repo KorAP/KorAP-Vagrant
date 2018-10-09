@@ -1,0 +1,11 @@
+/sandbox
+/target
+/bin
+/blib
+/public
+/log
+/temp
+/todo.org
+*~
+.*
+!.gitignore
