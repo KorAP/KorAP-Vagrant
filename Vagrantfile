@@ -4,6 +4,7 @@
 # The "2" in Vagrant.configure configures the configuration version.
 # Please don't change it unless you know what you're doing.
 Vagrant.configure(2) do |config|
+
   # https://docs.vagrantup.com.
 
   # More at https://vagrantcloud.com/search.
@@ -32,13 +33,12 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qq perlbrew
     sudo apt-get install -qq emacs
     sudo apt-get install -qq maven
-    # sudo apt-get install -qq nodejs
-    # sudo apt-get install -qq npm
-    # sudo apt-get install -qq ruby
+    sudo apt-get install -qq nodejs
+    sudo apt-get install -qq npm
+    sudo apt-get install -qq ruby
 
     # Workaround for https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1396760
     sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
-
 
     ###############################################
     echo "Install Koral"
@@ -88,6 +88,18 @@ Vagrant.configure(2) do |config|
 
 
     ###############################################
+    echo "Install NodeJS"
+    # This is required unfortunately
+    mkdir ~/tmp
+    npm set ca null
+    # sudo npm install -g n
+    # sudo n stable
+    sudo npm install -g sass
+    sudo npm install -g grunt-cli
+    sudo npm install grunt
+
+
+    ###############################################
     echo "Install Perlbrew + CPANminus"
     cd ~/
 
@@ -112,7 +124,7 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     echo "Install Kalamar"
-
+    cd ~/
     if [ -e ./Kalamar ] && [ -d ./Kalamar ]
      then
        cd Kalamar
@@ -126,7 +138,8 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     # echo "Install Kalamar client-side dependencies"
-    # sudo gem install sass
+    npm install
+    grunt
 
   SHELL
 end
