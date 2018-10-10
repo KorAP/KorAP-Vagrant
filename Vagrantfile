@@ -13,6 +13,9 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
+
+  config.vm.network "forwarded_port", guest: 5555, host: 5555
+  config.vm.network "forwarded_port", guest: 5556, host: 5556
   
   config.vm.box_download_insecure = true
   
@@ -90,10 +93,12 @@ Vagrant.configure(2) do |config|
     ###############################################
     echo "Install NodeJS"
     # This is required unfortunately
-    mkdir ~/tmp
+    if [ ! -e ~/tmp ]; then
+      mkdir ~/tmp
+    fi
     npm set ca null
-    # sudo npm install -g n
-    # sudo n stable
+    sudo npm install -g n
+    sudo n stable
     sudo npm install -g sass
     sudo npm install -g grunt-cli
     sudo npm install grunt
@@ -140,6 +145,55 @@ Vagrant.configure(2) do |config|
     # echo "Install Kalamar client-side dependencies"
     npm install
     grunt
+
+
+    ###############################################
+    echo "Prepare Kustvakt"
+    cd ~/
+
+    if [ ! -e ./Built ]; then
+      mkdir Built
+    fi
+
+    # Copy the jar file to the built folder
+    # This will do so for all files - but the last one will be kept
+    find ~/Kustvakt/lite/target/Kustvakt-lite-*.jar -exec mv {} ~/Built/Kustvakt-lite.jar ';'
+
+    # Rewrite the configuration file
+    sed -e 's#^krill\.indexDir\s*=\s*.*$#krill.indexDir=../Kustvakt/sample-index#gm' \
+        -e 's#^server\.port\s*=\s*.*$#server.port=5556#gm' \
+        ~/Kustvakt/lite/src/main/resources/kustvakt-lite.conf \
+        > ~/Built/kustvakt-lite.conf
+
+    # Start the server
+    cd ~/Built
+
+    # Kill Kustvakt before restarting
+    if [ -f ./kustvakt.pid ]
+      then
+        echo 'Shudown Kustvakt server'
+        kill -9 `cat ./kustvakt.pid`
+    fi
+
+    echo "Start Kustvakt"
+    nohup java -jar ./Kustvakt-lite.jar & echo $! > ./kustvakt.pid
+
+
+    ###############################################
+    echo "Start Kalamar"
+    cd ~/
+    cd Kalamar
+
+    # Add new configuration
+    echo "{hypnotoad=>{listen=>['http://*:5555']}}" \
+      > kalamar.vagrant.conf
+
+    echo "not really secret" > kalamar.secret
+
+    # Start the server
+    KALAMAR_API="http://localhost:5556/api/" \
+      MOJO_MODE=vagrant \
+      hypnotoad script/kalamar
 
   SHELL
 end
