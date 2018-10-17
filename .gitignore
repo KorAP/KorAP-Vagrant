@@ -8,4 +8,5 @@
 /todo.org
 *~
 .*
+*.log
 !.gitignore

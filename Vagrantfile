@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
   # https://docs.vagrantup.com.
 
   # More at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial64"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
@@ -113,7 +113,6 @@ Vagrant.configure(2) do |config|
 
     source ~/perl5/perlbrew/etc/bashrc
 
-    perlbrew self-upgrade
     perlbrew install -q perl-5.24.0
 
     perlbrew switch perl-5.24.0
@@ -194,6 +193,43 @@ Vagrant.configure(2) do |config|
     KALAMAR_API="http://localhost:5556/api/" \
       MOJO_MODE=vagrant \
       hypnotoad script/kalamar
+
+
+    ###############################################
+    echo "Establish systemd"
+
+    echo "[Unit]
+Description=Kustvakt
+After=network.target
+
+[Service]
+User=root
+Type=forking
+ExecStart=/bin/su - vagrant -c 'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo $! > kustvakt.pid'
+PIDFile=/home/vagrant/Built/kustvakt.pid
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target" | sudo tee /lib/systemd/system/kustvakt.service
+
+    echo "[Unit]
+Description=Kalamar
+After=network.target
+
+[Service]
+User=root
+Type=forking
+PIDFile=/home/vagrant/Kalamar/script/hypnotoad.pid
+ExecStart=/bin/su - vagrant -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+ExecStop=/bin/su - vagrant -c 'MOJO_MODE=vagrant /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad -s /home/vagrant/Kalamar/script/kalamar'
+ExecReload=/bin/su - vagrant -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+killMode=process
+
+[Install]
+WantedBy=multi-user.target" | sudo tee /lib/systemd/system/kalamar.service
+
+    sudo systemctl enable kustvakt
+    sudo systemctl enable kalamar
 
   SHELL
 end
