@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
   # More at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
 
+  # Memory size is set for installation of Krill
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
@@ -39,9 +40,6 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qq nodejs
     sudo apt-get install -qq npm
     sudo apt-get install -qq ruby
-
-    # Workaround for https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1396760
-    sudo /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
     ###############################################
     echo "Install Koral"

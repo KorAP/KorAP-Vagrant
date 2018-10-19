@@ -31,17 +31,23 @@ The KorAP API will be available at
 An example corpus as provided by [Kustvakt](https://github.com/KorAP/Kustvakt/)
 will be available as well.
 
-To update the software, simply run
-
-```
-$ git pull origin master
-$ vagrant provision
-```
-
 To stop the service, run
 
 ```
 $ vagrant halt
+```
+
+To restart the service, run
+
+```
+$ vagrant up
+```
+
+To update the software, run
+
+```
+$ git pull origin master
+$ vagrant provision
 ```
 
 To log into the machine, run
