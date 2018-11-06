@@ -41,6 +41,9 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qq npm
     sudo apt-get install -qq ruby
 
+    sudo systemctl disable kustvakt
+    sudo systemctl disable kalamar
+
     ###############################################
     echo "Install Koral"
     cd ~/
@@ -172,12 +175,8 @@ Vagrant.configure(2) do |config|
         kill -9 `cat ./kustvakt.pid`
     fi
 
-    echo "Start Kustvakt"
-    nohup java -jar ./Kustvakt-lite.jar & echo $! > ./kustvakt.pid
-
-
     ###############################################
-    echo "Start Kalamar"
+    echo "Configure Kalamar"
     cd ~/
     cd Kalamar
 
@@ -187,28 +186,22 @@ Vagrant.configure(2) do |config|
 
     echo "not really secret" > kalamar.secret
 
-    # Start the server
-    KALAMAR_API="http://localhost:5556/api/" \
-      MOJO_MODE=vagrant \
-      hypnotoad script/kalamar
-
-
     ###############################################
     echo "Establish systemd"
 
-    echo "[Unit]
+    echo '[Unit]
 Description=Kustvakt
 After=network.target
 
 [Service]
 User=root
 Type=forking
-ExecStart=/bin/su - vagrant -c 'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo $! > kustvakt.pid'
+ExecStart=/bin/su - vagrant -c \'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo $! > kustvakt.pid\'
 PIDFile=/home/vagrant/Built/kustvakt.pid
 KillMode=process
 
 [Install]
-WantedBy=multi-user.target" | sudo tee /lib/systemd/system/kustvakt.service
+WantedBy=multi-user.target' | sudo tee /lib/systemd/system/kustvakt.service
 
     echo "[Unit]
 Description=Kalamar
@@ -228,6 +221,12 @@ WantedBy=multi-user.target" | sudo tee /lib/systemd/system/kalamar.service
 
     sudo systemctl enable kustvakt
     sudo systemctl enable kalamar
+
+    # echo "Start Kustvakt"
+    sudo systemctl start kustvakt
+
+    # echo "Start Kalamar"
+    sudo systemctl start kalamar
 
   SHELL
 end
