@@ -52,7 +52,9 @@ $ vagrant provision
 
 To log into the machine, run
 
+```
 $ vagrant ssh
+```
 
 ## Development and License
 
