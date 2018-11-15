@@ -41,8 +41,22 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qq npm
     sudo apt-get install -qq ruby
 
+
+    ###############################################
+    echo "Stop the server"
+
+    sudo systemctl stop kalamar
+
+    # Kill Kustvakt before restarting
+    if [ -f /home/vagrant/Built/kustvakt.pid ]
+      then
+        echo 'Shutdown Kustvakt server'
+        sudo kill -9 `cat /home/vagrant/Built/kustvakt.pid`
+    fi
+
     sudo systemctl disable kustvakt
     sudo systemctl disable kalamar
+
 
     ###############################################
     echo "Install Koral"
@@ -50,11 +64,16 @@ Vagrant.configure(2) do |config|
     if [ -e ./Koral ] && [ -d ./Koral ]
      then
        cd Koral
-       git pull origin master
+       git checkout master
+       git fetch --tags
      else
        git clone https://github.com/KorAP/Koral.git Koral
        cd Koral
     fi
+
+    # Checkout a specific version
+    git checkout tags/v0.31
+
     mvn clean install -Dhttps.protocols=TLSv1.2    
 
 
@@ -64,11 +83,16 @@ Vagrant.configure(2) do |config|
     if [ -e ./Krill ] && [ -d ./Krill ]
      then
        cd Krill
-       git pull origin master
+       git checkout master
+       git fetch --tags
      else
        git clone https://github.com/KorAP/Krill.git Krill
        cd Krill
     fi
+
+    # Checkout a specific version
+    git checkout tags/v0.58.1
+
     mvn clean install
 
 
@@ -78,11 +102,15 @@ Vagrant.configure(2) do |config|
     if [ -e ./Kustvakt ] && [ -d ./Kustvakt ]
      then
        cd Kustvakt
-       git pull origin master
+       git checkout master
+       git fetch --tags
      else
        git clone https://github.com/KorAP/Kustvakt.git Kustvakt
        cd Kustvakt
     fi
+
+    # Checkout a specific version
+    git checkout tags/v0.61.3-release
 
     cd ~/Kustvakt/core
     mvn clean install
@@ -122,7 +150,6 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     echo "Install Kalamar server-side dependencies"
-    cpanm git://github.com/Akron/Mojolicious-Plugin-Search.git
     cpanm git://github.com/Akron/Mojolicious-Plugin-Localize.git
     cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 
@@ -133,11 +160,15 @@ Vagrant.configure(2) do |config|
     if [ -e ./Kalamar ] && [ -d ./Kalamar ]
      then
        cd Kalamar
-       git pull origin master
+       git checkout master
+       git fetch --tags
      else
        git clone git://github.com/KorAP/Kalamar.git Kalamar
        cd Kalamar
     fi
+
+    # Checkout a specific version
+    git checkout tags/v0.30
 
     cpanm --installdeps .
 
@@ -165,15 +196,6 @@ Vagrant.configure(2) do |config|
         ~/Kustvakt/lite/src/main/resources/kustvakt-lite.conf \
         > ~/Built/kustvakt-lite.conf
 
-    # Start the server
-    cd ~/Built
-
-    # Kill Kustvakt before restarting
-    if [ -f ./kustvakt.pid ]
-      then
-        echo 'Shudown Kustvakt server'
-        kill -9 `cat ./kustvakt.pid`
-    fi
 
     ###############################################
     echo "Configure Kalamar"
@@ -189,19 +211,19 @@ Vagrant.configure(2) do |config|
     ###############################################
     echo "Establish systemd"
 
-    echo '[Unit]
+    echo "[Unit]
 Description=Kustvakt
 After=network.target
 
 [Service]
 User=root
 Type=forking
-ExecStart=/bin/su - vagrant -c \'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo $! > kustvakt.pid\'
+ExecStart=/bin/su - vagrant -c 'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo" '$!' " > kustvakt.pid'
 PIDFile=/home/vagrant/Built/kustvakt.pid
 KillMode=process
 
 [Install]
-WantedBy=multi-user.target' | sudo tee /lib/systemd/system/kustvakt.service
+WantedBy=multi-user.target" | sudo tee /lib/systemd/system/kustvakt.service
 
     echo "[Unit]
 Description=Kalamar
