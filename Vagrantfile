@@ -59,6 +59,13 @@ Vagrant.configure(2) do |config|
 
 
     ###############################################
+    echo "Configure Git"
+    cd ~/
+    git config --global user.email "korap+vagrant@ids-mannheim.de"
+    git config --global user.name "Vagrant"
+    sudo chown vagrant:vagrant .config
+
+    ###############################################
     echo "Install Koral"
     cd ~/
     if [ -e ./Koral ] && [ -d ./Koral ]
@@ -91,7 +98,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.58.1
+    git checkout tags/v0.58.2
 
     mvn clean install
 
@@ -110,7 +117,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.61.3-release
+    git checkout tags/v0.61.4-release
 
     cd ~/Kustvakt/core
     mvn clean install
@@ -168,7 +175,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.30
+    git checkout tags/v0.31
 
     cpanm --installdeps .
 
