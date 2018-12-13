@@ -79,7 +79,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.31
+    git checkout tags/v0.32
 
     mvn clean install -Dhttps.protocols=TLSv1.2    
 

@@ -1,13 +1,17 @@
+2.1 2018-12-13
+        - Updates:
+          - Koral: v0.32
+
 2.0 2018-12-11
         - Fixed git congiguration issues.
         - Updates:
-          - Kustvakt:  v0.61.4
-          - Krill:     v0.58.2
-          - Kalamar:   v0.31
+          - Kustvakt: v0.61.4
+          - Krill:    v0.58.2
+          - Kalamar:  v0.31
 
 1.0 2018-11-15
         - Initial release version:
-          - Kustvakt:  v0.61.3
-          - Koral:     v0.31
-          - Krill:     v0.58.1
-          - Kalamar:   v0.30
+          - Kustvakt: v0.61.3
+          - Koral:    v0.31
+          - Krill:    v0.58.1
+          - Kalamar:  v0.30
