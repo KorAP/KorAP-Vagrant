@@ -180,6 +180,21 @@ Vagrant.configure(2) do |config|
     cpanm --installdeps .
 
     ###############################################
+    # echo "Configure Kalamar for asset building"
+
+    echo "KorAP.Conf = KorAP.Conf || {};\
+      require([\
+        \'hint/foundries/base\',\
+        \'hint/foundries/corenlp\',\
+        \'hint/foundries/dereko\',\
+        \'hint/foundries/malt\',\
+        \'hint/foundries/marmot\',\
+        \'hint/foundries/opennlp\',\
+        \'hint/foundries/treetagger\'\
+      ]);" > kalamar.conf.js
+
+
+    ###############################################
     # echo "Install Kalamar client-side dependencies"
     npm install
     grunt
