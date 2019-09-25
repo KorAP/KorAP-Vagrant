@@ -33,8 +33,6 @@ Please be patient - the first provision will take quite some time.
 
 Afterwards you will have the KorAP user-interface available at
 ```http://localhost:5555``` on your machine.
-The KorAP API will be available at
-```http://localhost:5556```.
 An example corpus as provided by [Kustvakt](https://github.com/KorAP/Kustvakt/)
 will be available as well.
 

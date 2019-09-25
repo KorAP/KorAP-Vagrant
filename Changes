@@ -1,3 +1,13 @@
+3.0 2019-09-25
+        - Updates:
+          - Koral:    v0.34
+          - Krill:    v0.58.7
+          - Kustvakt: v0.62.1
+          - Kalamar:  v0.36
+        - The KorAP API is now proxied and available
+          under :5555 as well.
+
+
 2.1 2018-12-13
         - Updates:
           - Koral: v0.32

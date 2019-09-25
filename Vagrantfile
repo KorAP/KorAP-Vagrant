@@ -16,7 +16,6 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.network "forwarded_port", guest: 5555, host: 5555
-  config.vm.network "forwarded_port", guest: 5556, host: 5556
   
   config.vm.box_download_insecure = true
   
@@ -79,7 +78,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.32
+    git checkout tags/v0.34
 
     mvn clean install -Dhttps.protocols=TLSv1.2    
 
@@ -98,7 +97,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.58.2
+    git checkout tags/v0.58.7
 
     mvn clean install
 
@@ -117,7 +116,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.61.4-release
+    git checkout tags/v0.62.1-release
 
     cd ~/Kustvakt/core
     mvn clean install
@@ -167,6 +166,7 @@ Vagrant.configure(2) do |config|
     if [ -e ./Kalamar ] && [ -d ./Kalamar ]
      then
        cd Kalamar
+       git stash
        git checkout master
        git fetch --tags
      else
@@ -175,7 +175,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.31
+    git checkout tags/v0.36
 
     cpanm --installdeps .
 
