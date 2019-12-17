@@ -77,7 +77,7 @@ KorAP-Vagrant is developed as part of the [KorAP](http://korap.ids-mannheim.de/)
 Corpus Analysis Platform at the Leibniz Institute for the German Language
 ([IDS](http://ids-mannheim.de/)),
 funded by the
-[Leibniz-Gemeinschaft](http://www.leibniz-gemeinschaft.de/en/about-us/leibniz-competition/projekte-2011/2011-funding-line-2/).
+[Leibniz-Gemeinschaft](https://www.leibniz-gemeinschaft.de/).
 
 KorAP-Vagrant is published under the
 [BSD-2 License](https://raw.githubusercontent.com/KorAP/KorAP-Vagrant/master/LICENSE).
