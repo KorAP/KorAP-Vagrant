@@ -1,3 +1,6 @@
+3.1 2019-12-18
+        - Don't run systemd with sudo
+
 3.0 2019-09-25
         - Updates:
           - Koral:    v0.34

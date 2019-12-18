@@ -238,9 +238,9 @@ Description=Kustvakt
 After=network.target
 
 [Service]
-User=root
+User=vagrant
 Type=forking
-ExecStart=/bin/su - vagrant -c 'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo" '$!' " > kustvakt.pid'
+ExecStart=/bin/bash -l -c 'cd /home/vagrant/Built ; nohup java -jar Kustvakt-lite.jar & echo" '$!' " > kustvakt.pid'
 PIDFile=/home/vagrant/Built/kustvakt.pid
 KillMode=process
 
@@ -252,12 +252,12 @@ Description=Kalamar
 After=network.target
 
 [Service]
-User=root
+User=vagrant
 Type=forking
 PIDFile=/home/vagrant/Kalamar/script/hypnotoad.pid
-ExecStart=/bin/su - vagrant -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
-ExecStop=/bin/su - vagrant -c 'MOJO_MODE=vagrant /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad -s /home/vagrant/Kalamar/script/kalamar'
-ExecReload=/bin/su - vagrant -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+ExecStart=/bin/bash -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+ExecStop=/bin/bash -l -c 'MOJO_MODE=vagrant /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad -s /home/vagrant/Kalamar/script/kalamar'
+ExecReload=/bin/bash -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
 killMode=process
 
 [Install]
