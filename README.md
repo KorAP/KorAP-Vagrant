@@ -71,7 +71,7 @@ $ vagrant ssh
 
 ## Development and License
 
-Copyright (c) 2018-2019, [IDS Mannheim](http://ids-mannheim.de/), Germany
+Copyright (c) 2018-2020, [IDS Mannheim](http://ids-mannheim.de/), Germany
 
 KorAP-Vagrant is developed as part of the [KorAP](http://korap.ids-mannheim.de/)
 Corpus Analysis Platform at the Leibniz Institute for the German Language
