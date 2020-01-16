@@ -127,6 +127,7 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     echo "Install NodeJS"
+    cd ~
     # This is required unfortunately
     if [ ! -e ~/tmp ]; then
       mkdir ~/tmp
@@ -148,9 +149,9 @@ Vagrant.configure(2) do |config|
 
     source ~/perl5/perlbrew/etc/bashrc
 
-    perlbrew install -q perl-5.24.0
+    perlbrew install -q perl-5.30.1
 
-    perlbrew switch perl-5.24.0
+    perlbrew switch perl-5.30.1
     perlbrew install-cpanm
 
 
@@ -159,6 +160,9 @@ Vagrant.configure(2) do |config|
     cpanm git://github.com/Akron/Mojolicious-Plugin-Localize.git
     cpanm git://github.com/Akron/Mojolicious-Plugin-TagHelpers-ContentBlock.git
 
+    # Install Date::Parse ignoring any problems, as this is only
+    # used for testing purposes in CHI.
+    cpanm -f Date::Parse
 
     ###############################################
     echo "Install Kalamar"
@@ -196,6 +200,7 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     # echo "Install Kalamar client-side dependencies"
+    rm -rf node_modules
     npm install
     grunt
 
@@ -255,9 +260,9 @@ After=network.target
 User=vagrant
 Type=forking
 PIDFile=/home/vagrant/Kalamar/script/hypnotoad.pid
-ExecStart=/bin/bash -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
-ExecStop=/bin/bash -l -c 'MOJO_MODE=vagrant /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad -s /home/vagrant/Kalamar/script/kalamar'
-ExecReload=/bin/bash -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" /home/vagrant/perl5/perlbrew/perls/perl-5.24.0/bin/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+ExecStart=/bin/bash  -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" " `dirname \\`which perl\\``"/hypnotoad /home/vagrant/Kalamar/script/kalamar'
+ExecStop=/bin/bash   -l -c 'MOJO_MODE=vagrant " `dirname \\`which perl\\``"/hypnotoad -s /home/vagrant/Kalamar/script/kalamar'
+ExecReload=/bin/bash -l -c 'MOJO_MODE=vagrant KALAMAR_API=\"http://localhost:5556/api/\" " `dirname \\`which perl\\``"/hypnotoad /home/vagrant/Kalamar/script/kalamar'
 killMode=process
 
 [Install]

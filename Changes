@@ -1,3 +1,7 @@
+3.2 2020-01-16
+        - Update per version to work around
+          issue with Date::Parse.
+
 3.1 2019-12-18
         - Don't run systemd with sudo
 
@@ -9,7 +13,6 @@
           - Kalamar:  v0.36
         - The KorAP API is now proxied and available
           under :5555 as well.
-
 
 2.1 2018-12-13
         - Updates:
