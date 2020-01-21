@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
 
   # More at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
-
+ 
   # Memory size is set for installation of Krill
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
@@ -78,7 +78,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.34
+    git checkout tags/v0.35
 
     mvn clean install -Dhttps.protocols=TLSv1.2    
 
@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.58.7
+    git checkout tags/v0.59
 
     mvn clean install
 
@@ -116,7 +116,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.62.1-release
+    git checkout tags/v0.62.3-release
 
     cd ~/Kustvakt/core
     mvn clean install
@@ -127,7 +127,7 @@ Vagrant.configure(2) do |config|
 
     ###############################################
     echo "Install NodeJS"
-    cd ~
+    cd ~/
     # This is required unfortunately
     if [ ! -e ~/tmp ]; then
       mkdir ~/tmp
@@ -179,7 +179,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.36
+    git checkout tags/v0.37
 
     cpanm --installdeps .
 
@@ -230,7 +230,8 @@ Vagrant.configure(2) do |config|
     cd Kalamar
 
     # Add new configuration
-    echo "{hypnotoad=>{listen=>['http://*:5555']}}" \
+    echo "{hypnotoad=>{listen=>['http://*:5555']},\
+           Kalamar=>{experimental_proxy => 1}}"\
       > kalamar.vagrant.conf
 
     echo "not really secret" > kalamar.secret
