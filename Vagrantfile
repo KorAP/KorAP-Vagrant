@@ -78,7 +78,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.35
+    git checkout tags/v0.36
 
     mvn clean install -Dhttps.protocols=TLSv1.2    
 
@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.59
+    git checkout tags/v0.59.2
 
     mvn clean install
 
@@ -116,7 +116,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.62.3-release
+    git checkout tags/v0.62.4-release
 
     cd ~/Kustvakt/core
     mvn clean install
@@ -179,7 +179,7 @@ Vagrant.configure(2) do |config|
     fi
 
     # Checkout a specific version
-    git checkout tags/v0.37
+    git checkout tags/v0.39
 
     cpanm --installdeps .
 
