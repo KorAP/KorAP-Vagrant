@@ -71,11 +71,11 @@ $ vagrant ssh
 
 ## Development and License
 
-Copyright (c) 2018-2020, [IDS Mannheim](http://ids-mannheim.de/), Germany
+Copyright (c) 2018-2021, [IDS Mannheim](https://www.ids-mannheim.de/), Germany
 
-KorAP-Vagrant is developed as part of the [KorAP](http://korap.ids-mannheim.de/)
+KorAP-Vagrant is developed as part of the [KorAP](https://korap.ids-mannheim.de/)
 Corpus Analysis Platform at the Leibniz Institute for the German Language
-([IDS](http://ids-mannheim.de/)),
+([IDS](https://www.ids-mannheim.de/)),
 funded by the
 [Leibniz-Gemeinschaft](https://www.leibniz-gemeinschaft.de/).
 
